@@ -62,7 +62,26 @@ var bubble.mp4 = {
 <div data-tid="messageBodyContent">
 <p>        zmqRemoteAPI 是一種遠端 API（應用程式編程介面），允許使用外部編寫的程式（例如 Python、C++ 或 Matlab）連接到機器人模擬軟體 CoppeliaSim。zmqRemoteAPI 使用 ZeroMQ 網路庫進行通訊，讓使用者能夠即時互動仿真環境。</p>
 <p>2.How do you establish a connection between a Python script and CoppeliaSim using zmqRemoteAPI?</p>
-<p>要使用 zmqRemoteAPI 在 Python 腳本和 CoppeliaSim 之間建立連接，需要遵循以下步驟：<br/><br/>啟動 CoppeliaSim 並打開一個場景檔案。<br/>在場景中添加一個遠端 API 伺服器物件（在添加物件對話方塊中，選擇 Remote API Server）。<br/>在 Python 腳本中，匯入所需的模組並使用 "simxStart" 函數建立客戶端物件。<br/>使用 "simxCallScriptFunction" 函數向 CoppeliaSim 發送命令並接收資料。<br/>以下是一個連接到 CoppeliaSim 的 Python 程式碼範例：<br/>&lt;pre class="brush:html" contenteditable="false"&gt;import sim as vrep<br/>import time<br/><br/># 建立連接<br/>clientID = vrep.simxStart('127.0.0.1', 19997, True, True, 5000, 5)<br/>if clientID == -1:<br/>    print('無法連接到遠端 API 伺服器')<br/>    exit()<br/><br/># 向 CoppeliaSim 發送命令<br/>returnCode, signalValue = vrep.simxGetIntegerSignal(clientID, 'mySignal', vrep.simx_opmode_blocking)<br/>if returnCode == vrep.simx_return_ok:<br/>    print('信號值：', signalValue)<br/>else:<br/>    print('無法獲取信號值')<br/><br/># 斷開連接<br/>vrep.simxFinish(clientID)&lt;/pre&gt;</p>
+<p>要使用 zmqRemoteAPI 在 Python 腳本和 CoppeliaSim 之間建立連接，需要遵循以下步驟：<br/><br/>啟動 CoppeliaSim 並打開一個場景檔案。<br/>在場景中添加一個遠端 API 伺服器物件（在添加物件對話方塊中，選擇 Remote API Server）。<br/>在 Python 腳本中，匯入所需的模組並使用 "simxStart" 函數建立客戶端物件。<br/>使用 "simxCallScriptFunction" 函數向 CoppeliaSim 發送命令並接收資料。<br/>以下是一個連接到 CoppeliaSim 的 Python 程式碼範例：</p>
+<pre class="brush:html" contenteditable="false">import sim as vrep
+import time
+
+# 建立連接
+clientID = vrep.simxStart('127.0.0.1', 19997, True, True, 5000, 5)
+if clientID == -1:
+    print('無法連接到遠端 API 伺服器')
+    exit()
+
+# 向 CoppeliaSim 發送命令
+returnCode, signalValue = vrep.simxGetIntegerSignal(clientID, 'mySignal', vrep.simx_opmode_blocking)
+if returnCode == vrep.simx_return_ok:
+    print('信號值：', signalValue)
+else:
+    print('無法獲取信號值')
+
+# 斷開連接
+vrep.simxFinish(clientID)</pre>
+<p><br/><br/></p>
 <p></p>
 <p>What are some common use cases for zmqRemoteAPI in CoppeliaSim?</p>
 <p>What are the advantages and disadvantages of using zmqRemoteAPI compared to other methods of communication between Python and CoppeliaSim?</p>
