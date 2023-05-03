@@ -196,8 +196,15 @@ vrep.simxFinish(clientID)</pre>
 <p>4.What are the advantages and disadvantages of using zmqRemoteAPI compared to other methods of communication between Python and CoppeliaSim?</p>
 <p>快速高效的通訊<br/>支援多種程式語言<br/>即時互動仿真環境<br/>允許遠端存取仿真<br/>缺點可能包括更陡峭的學習曲線和需要額外的程式庫。</p>
 <p>相較於其他通訊方法，使用 zmqRemoteAPI 需要較多的程式設計經驗和了解 ZeroMQ 網路庫的概念。另外，使用 zmqRemoteAPI 需要安裝和配置 ZeroMQ 網路庫，這可能需要額外的時間和資源。</p>
-<p>Can you give an example of a project or task that you could complete using zmqRemoteAPI in CoppeliaSim?</p>
-<p></p>
+<p>5.Can you give an example of a project or task that you could complete using zmqRemoteAPI in CoppeliaSim?</p>
+<p>使用 zmqRemoteAPI，可以在 CoppeliaSim 中完成許多專案或任務。以下是一個使用 zmqRemoteAPI 在 CoppeliaSim 中進行視覺感知的範例：</p>
+<p>假設有一個機器人模型，可以透過 CoppeliaSim 遠端 API 伺服器控制。此外，模型上有一個攝影機，可以捕捉模擬環境中的影像。目標是讓機器人模型能夠偵測影像中的物體並移動到它們的位置。</p>
+<p>以下是一個使用 Python 和 zmqRemoteAPI 實現的範例：</p>
+<p>1.在 CoppeliaSim 中建立一個機器人模型和一個攝影機。</p>
+<p>2.在 Python 中使用 zmqRemoteAPI 建立連接，並使用 "simxGetObjectHandle" 函數獲取模型和攝影機的句柄。</p>
+<p>3.使用 "simxGetVisionSensorImage" 函數獲取攝影機的畫面。</p>
+<p>4.使用 OpenCV 或其他圖像處理程式庫分析攝影機畫面，偵測物體的位置。</p>
+<p>5.使用 "simxSetJointTargetPosition" 函數控制機器人模型的移動，使其移動到偵測到的物體的位置。</p>
 <br/>
 <div></div>
 <div><em><strong>你們的組長已經將問題送給Chatgpt了，將<a href="./../downloads/w10.txt">檔案</a>下載後請三人選擇如何分這五題(改完請刪除此訊息)</strong></em></div>
