@@ -117,9 +117,49 @@ vrep.simxFinish(clientID)</pre>
 <div><em><strong></strong></em></div>
 <h1>w11</h1>
 <p><a href="/downloads/race.ttt">場景</a></p>
-<p></p>
-<h2>41023226</h2>
+<pre class="brush:html" contenteditable="false"># pip install pyzmq cbor keyboard
+from zmqRemoteApi import RemoteAPIClient
+import keyboard
+
+client = RemoteAPIClient('localhost', 23000)
+
+print('Program started')
+sim = client.getObject('sim')
+sim.startSimulation()
+print('Simulation started')
+
+def setBubbleRobVelocity(leftWheelVelocity, rightWheelVelocity):
+    leftMotor = sim.getObject('/leftMotor2')
+    rightMotor = sim.getObject('/rightMotor2')
+    sim.setJointTargetVelocity(leftMotor, leftWheelVelocity)
+    sim.setJointTargetVelocity(rightMotor, rightWheelVelocity)
+
+'''
+# Example usage 1:
+setBubbleRobVelocity(1.0, 1.0)
+time.sleep(2)
+setBubbleRobVelocity(0.0, 0.0)
+'''
+# use keyborad to move BubbleRob
+
+while True:
+    if keyboard.is_pressed('w'):
+        setBubbleRobVelocity(1.0, 1.0)
+    elif keyboard.is_pressed('z'):
+        setBubbleRobVelocity(-1.0, -1.0)
+    elif keyboard.is_pressed('a'):
+        setBubbleRobVelocity(-1.0, 1.0)
+    elif keyboard.is_pressed('s'):
+        setBubbleRobVelocity(1.0, -1.0)
+    elif keyboard.is_pressed('q'):
+        # stop simulation
+        sim.stopSimulation()
+    else:
+        setBubbleRobVelocity(0.0, 0.0)
+
+</pre><h2>41023226</h2>
 <h2>41023220</h2>
+<h2>41023233</h2>
 <h1>Brython</h1>
 <p><a href="https://en.wikipedia.org/wiki/Python_(programming_language)">https://en.wikipedia.org/wiki/Python_(programming_language)</a></p>
 <h4>Examples:</h4>
