@@ -160,10 +160,12 @@ while True:
 </pre>
 <p>可以修改 ('/leftMotor)、('/rightMotor)</p>
 <h2>41023226</h2>
+<p>自評:85分 </p>
 <p>遇到的難題&amp;心得</p>
 <p>1.將計分板程式弄上去後發現球進不會感應，但機器人會，原本以為我的程式出現錯誤，但沒想到是球與機器人的 Collidable Measurable Detectable 設定有誤，應將球的勾選而不是機器人</p>
 <p>2.打算將進球後進球方與被進球方放回原位，並將球放在離被進球方較近的位置，結果對 'sim.getObjectPosition' 函數的未知鬧出許多笑話，像是 -1 不知道要放在座標前面還是後面XD</p>
 <p>3. 原本打算一開始球以亂數形式產生(避免在正中間而造成雙方僵持不下)，但我的記分板中的程式由於第二點以至於一開始一定要有一顆球，而不能我想到的(放進zmq程式中亂數產球)而不了了之，希望之後我能想出個好方法。</p>
+<p>以下是最終的記分板心得:</p>
 <p></p>
 <pre class="brush:html" contenteditable="false">function sysCall_init()
     score1 = 0
