@@ -8,7 +8,7 @@
 <p>41023233 Anguss676</p>
 <p></p>
 <h1>w9</h1>
-<h2>41023226</h2>
+<h2>w9-41023226</h2>
 <p></p>
 <script>
 var remove1.mp4 = {
@@ -25,10 +25,10 @@ var remove1.mp4 = {
 <source src="./../downloads/remove1.mp4" type="video/mp4"/></video></div>
 <div class="winkVideoContainerClass"></div>
 <p>心得:今天使用老師給的removeAPI的程式控制機器人，可以透過改IP的方式操控其他電腦的機器人，十分有趣。</p>
-<h2>41023220</h2>
+<h2>w9-41023220</h2>
 <p><br/>心得: 今天對removeAPI有了初步的認知，覺得自己可以做得更好。</p>
 <p><iframe allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen="allowfullscreen" frameborder="0" height="315" src="https://www.youtube.com/embed/Ata6OHjV6F4" title="YouTube video player" width="560"></iframe></p>
-<h2>41023233</h2>
+<h2>w9-41023233</h2>
 <script>
 var bubble.mp4 = {
  dataVersion: 1,
@@ -44,7 +44,7 @@ var bubble.mp4 = {
 <source src="./../downloads/bubble.mp4" type="video/mp4"/></video></div>
 <div class="winkVideoContainerClass"></div>
 <p>心得:今天使用了老師給的資料夾bubbleRob_zmq_green_red_example開啟了coppelia，學習到怎麼操控機器人，希望下次動作可以再快一點。</p>
-<h2>41023253</h2>
+<h2>w9-41023253</h2>
 <p>心得:今天跟著老師嘗試進行了removeAPI，讓我對IP控制有了初步的概念了，希望未來能夠順利地跟上課程。</p>
 <p><iframe allowfullscreen="allowfullscreen" height="314" src="//www.youtube.com/embed/oVik0ZJ4c6g" width="560"></iframe></p>
 <h1>w10</h1>
@@ -158,8 +158,118 @@ while True:
         setBubbleRobVelocity(0.0, 0.0)
 
 </pre>
-<p>可以修改 ('/leftMotor)、('/rightMotor)</p><h2>41023226</h2>
-<h2>41023253</h2>
+<p>可以修改 ('/leftMotor)、('/rightMotor)</p>
+<h2>41023226</h2>
+<p>遇到的難題&amp;心得</p>
+<p>1.將計分板程式弄上去後發現球進不會感應，但機器人會，原本以為我的程式出現錯誤，但沒想到是球與機器人的 Collidable Measurable Detectable 設定有誤，應將球的勾選而不是機器人</p>
+<p>2.打算將進球後進球方與被進球方放回原位，並將球放在離被進球方較近的位置，結果對 'sim.getObjectPosition' 函數的未知鬧出許多笑話，像是 -1 不知道要放在座標前面還是後面XD</p>
+<p>3. 原本打算一開始球以亂數形式產生(避免在正中間而造成雙方僵持不下)，但我的記分板中的程式由於第二點以至於一開始一定要有一顆球，而不能我想到的(放進zmq程式中亂數產球)而不了了之，希望之後我能想出個好方法。</p>
+<p>以下是最終的記分板心得:</p>
+<p></p>
+<pre class="brush:html" contenteditable="false">function sysCall_init()
+    score1 = 0
+    score3 = 0 
+    s0={1,1,1,0,1,1,1}
+    s1={0,0,1,0,0,1,0}
+    s2={1,0,1,1,1,0,1}
+    s3={1,0,1,1,0,1,1}
+    s4={0,1,1,1,0,1,0}
+    s5={1,1,0,1,0,1,1}
+    s6={1,1,0,1,1,1,1}
+    s7={1,0,1,0,0,1,0}
+    s8={1,1,1,1,1,1,1}
+    s9={1,1,1,1,0,1,1}
+    s={s0,s1,s2,s3,s4,s5,s6,s7,s8,s9}
+    for j = 0,6,1 do
+        local t = sim.getObject('./ten['..j..']')
+        if (s[1][j+1]==1) then
+            sim.setShapeColor(t, nil, sim.colorcomponent_ambient_diffuse, {1, 0, 0})
+        else
+            sim.setShapeColor(t, nil, sim.colorcomponent_ambient_diffuse, {1, 1, 1})
+        end
+    end
+    for j = 0,6,1 do
+        local d = sim.getObject('./digit['..j..']')
+        if (s[1][j+1]==1) then
+            sim.setShapeColor(d, nil, sim.colorcomponent_ambient_diffuse, {1, 0, 0})
+        else
+            sim.setShapeColor(d, nil, sim.colorcomponent_ambient_diffuse, {1, 1, 1})
+        end
+    end
+end
+
+sensor = sim.getObject('./sensor')
+initialPos = sim.getObjectPosition(sensor, -1)
+initialOri = sim.getObjectOrientation(sensor, -1)
+ball = sim.getObject('/ball')
+function sysCall_actuation()
+    bubbleRob1 = sim.getObject('/bubbleRob1')
+    bubbleRob2 = sim.getObject('/bubbleRob2')
+    local initialOri1 = sim.getObjectOrientation(bubbleRob1, -1)
+    local initialOri2 = sim.getObjectOrientation(bubbleRob2, -1)
+    result = sim.readProximitySensor(sensor)
+    if (result &gt; 0) then
+        if (score1 &lt; 9) then
+            score1 = score1 + 1
+            sim.setObjectPosition(ball, -1, {0,0,0})
+            sim.setObjectPosition(bubbleRob1, -1, {-0.75, -0.2, 0.12})
+            sim.setObjectOrientation(bubbleRob1, -1, initialOri1)
+            sim.setObjectPosition(bubbleRob2, -1, {0.65, -0.225, 0.12})
+            sim.setObjectOrientation(bubbleRob2, -1, initialOri2)
+            for i = 0, 9, 1 do
+                if (score1 == i) then
+                    for j = 0, 6, 1 do
+                        local d = sim.getObject('./digit['..j..']')
+                        if (s[i+1][j+1] == 1) then
+                            sim.setShapeColor(d, nil, sim.colorcomponent_ambient_diffuse, {1, 0, 0})
+                        else
+                            sim.setShapeColor(d, nil, sim.colorcomponent_ambient_diffuse, {1, 1, 1})
+                        end
+                    end
+                end
+            end
+            sim.setObjectPosition(ball, -1, {-0.325, -0.25,0.05})
+            sim.setObjectOrientation(ball, -1, {0,0,0})
+            score2 = score1
+        elseif (score3 &lt; 9) then
+            score1 = 0
+            score3 = score3 + 1
+            for i = 0, 9, 1 do
+                if (score3 == i) then
+                    for j = 0, 6, 1 do
+                        local t = sim.getObject('./ten['..j..']')
+                        if (s[i+1][j+1] == 1) then
+                            sim.setShapeColor(t, nil, sim.colorcomponent_ambient_diffuse, {1, 0, 0})
+                        else
+                            sim.setShapeColor(t, nil, sim.colorcomponent_ambient_diffuse, {1, 1, 1})
+                        end
+                    end
+                end
+            end
+            score4 = score3
+        else
+            sim.pauseSimulation()
+        end
+    end
+end
+</pre>
+<p>心得:我必須得承認以上程式不是我百分之百手打出來的，但我很自豪，我能透過使用ChatGPT的方式，以自己的力量將這次的協同作業給做出來，而在這之中我也受益良多學到了許多在CoppeliaSim中的lua函式應用包括但不限於:</p>
+<ol>
+<li><code>simCall_init()</code> : 模擬開始時初始化數值和物件的初始顏色。</li>
+<li><code>sim.getObject()</code> : 獲取指定名稱的物件的句柄(handle)。(老實說一開始還真沒看過句柄這個詞)</li>
+<li><code>sim.setShapeColor()</code> : 設置物體的顏色。</li>
+<li><code>sim.getObjectPosition()</code> : 獲取物體的位置。</li>
+<li><code>sim.getObjectOrientation()</code> : 獲取物體的方向。</li>
+<li><code>sim.readProximitySensor()</code> : 讀取接近感應器的數值。</li>
+<li><code>sim.setObjectPosition()</code> : 設置物體的位置。</li>
+<li><code>sim.setObjectOrientation()</code> : 設置物體的方向。</li>
+<li><code>sim.pauseSimulation()</code> : 暫停模擬。</li>
+</ol>
+<p>因為以上只是我在<a href="/downloads/race3.ttt">最終的計分板</a>的程式中學到的，在w11的<a href="/downloads/race2.ttt">記分板</a>程式中，由於當時沒有將進球後如何reset球與機器人，而將程式弄得較簡易，但話雖如此我也在計分板程式中學到了</p>
+<ul>
+<li>sim.setObjectSpecialProperty()：用來設定物體的特殊屬性。</li>
+</ul>
+<p>這個酷酷的函式，雖然我不能說能完全應用以上程式，但至少之後我再看到他們的時候能感到一絲安慰吧(終於看到熟悉的程式了)。</p><h2>41023253</h2>
 <h2>41023220</h2>
 <h2>41023233</h2>
 <h1>Brython</h1>
@@ -975,4 +1085,14 @@ doc["add1to100"].bind('click', add)
 <p><!-- Brython 程式執行的結果, 都以 brython_div1 作為切入位置 --></p>
 <div id="brython_div1"></div>
 <!-- editor1 結束 --><!-- ########################################## -->
-<div></div></div></div></header></div></nav></div></div></div></div></div></div></div>
+<div></div>
+</div>
+</div>
+</header></div>
+</nav></div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
