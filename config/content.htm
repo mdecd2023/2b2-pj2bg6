@@ -158,11 +158,9 @@ while True:
         setBubbleRobVelocity(0.0, 0.0)
 
 </pre>
-<p>可以修改 ('/leftMotor)、('/rightMotor)</p><h2>41023226</h2>
-=======
+<p>可以修改 ('/leftMotor)、('/rightMotor)</p>
+<h2>41023226</h2>
 <h2>41023253</h2>
-<p></p><h2>41023226</h2>
-&gt;&gt;&gt;&gt;&gt;&gt;&gt; 8293ed0e6003fa5c87e467312d0056ba2646cfc5
 <h2>41023220</h2>
 <h2>41023233</h2>
 <h1>Brython</h1>
@@ -852,6 +850,7 @@ output_div.text = f'Best Solution: {best_solution}'
 <div class="container">
 <div class="row align-items-center">
 <h1>Brython環境</h1>
+<p>有好心人告訴我只有16組，所以改了一下git</p>
 <p><button id="add1to100">亂數</button></p>
 <!-- 導入 brython 程式庫 -->
 <p>
@@ -910,7 +909,7 @@ def run1():
     try:
         url = doc.query["src"]
     except:
-        url = "https://raw.githubusercontent.com/mdecd2023/2b2-pj2bg1/main/downloads/w10.py"
+        url = "https://gist.githubusercontent.com/41023226/20953c6678324f61b54b4ea27d24add2/raw/02e4269e06fde76c1792e159f52cd921511b3172/random"
     prog = open(url).read()
 
     # 將程式載入編輯區
@@ -945,7 +944,7 @@ def clear_bd1(ev):
 # 利用 ace 中的 Editor 建立 Ace2 物件, 其中的輸入變數分別對應到頁面中的編輯區物件
 Ace2 = ace.Editor(editor_id="kw_editor1", console_id="kw_console1", container_id="kw__container1", storage_id="kw_py_src1" )
 
-add1to100_url = "https://raw.githubusercontent.com/mdecd2023/2b2-pj2bg1/main/downloads/w10.py"
+add1to100_url = "https://gist.githubusercontent.com/41023226/20953c6678324f61b54b4ea27d24add2/raw/02e4269e06fde76c1792e159f52cd921511b3172/random"
 
 # 從 gist 取得程式碼
 add_src = open(add1to100_url).read()
@@ -977,14 +976,4 @@ doc["add1to100"].bind('click', add)
 <p><!-- Brython 程式執行的結果, 都以 brython_div1 作為切入位置 --></p>
 <div id="brython_div1"></div>
 <!-- editor1 結束 --><!-- ########################################## -->
-<div></div>
-</div>
-</div>
-</header></div>
-</nav></div>
-</div>
-</div>
-</div>
-</div>
-</div>
-</div>
+<div></div></div></div></header></div></nav></div></div></div></div></div></div></div>
