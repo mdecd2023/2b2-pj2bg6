@@ -116,7 +116,7 @@ vrep.simxFinish(clientID)</pre>
 <div><em><strong>你們的組長已經將問題送給Chatgpt了，將<a href="/downloads/w10.txt">檔案</a>下載後請三人選擇如何分這五題(改完請刪除此訊息)</strong></em></div>
 <div><em><strong></strong></em></div>
 <h1>w11</h1>
-<p><a href="/downloads/race.ttt">場景</a></p>
+<p><a href="/downloads/race.ttt">場景</a> <a href="/downloads/race2.ttt">記分板</a> <a href="/downloads/瀏覽器中計分板設計 (.7z含場景與控制程式).7z">瀏覽器中計分板設計 (.7z含場景與控制程式)</a></p>
 <pre class="brush:html" contenteditable="false"># pip install pyzmq cbor keyboard
 from zmqRemoteApi import RemoteAPIClient
 import keyboard
@@ -144,13 +144,13 @@ setBubbleRobVelocity(0.0, 0.0)
 
 while True:
     if keyboard.is_pressed('w'):
-        setBubbleRobVelocity(1.0, 1.0)
+        setBubbleRobVelocity(3.0, 3.0)
     elif keyboard.is_pressed('z'):
-        setBubbleRobVelocity(-1.0, -1.0)
+        setBubbleRobVelocity(-2.0, -2.0)
     elif keyboard.is_pressed('a'):
-        setBubbleRobVelocity(-1.0, 1.0)
+        setBubbleRobVelocity(-1.0, 2.0)
     elif keyboard.is_pressed('s'):
-        setBubbleRobVelocity(1.0, -1.0)
+        setBubbleRobVelocity(2.0, -1.0)
     elif keyboard.is_pressed('q'):
         # stop simulation
         sim.stopSimulation()
@@ -158,8 +158,7 @@ while True:
         setBubbleRobVelocity(0.0, 0.0)
 
 </pre>
-<p>可以修改 ('/leftMotor)、('/rightMotor)</p>
-<h2>41023226</h2>
+<p>可以修改 ('/leftMotor)、('/rightMotor)</p><h2>41023226</h2>
 <h2>41023253</h2>
 <h2>41023220</h2>
 <h2>41023233</h2>
